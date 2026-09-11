@@ -220,8 +220,8 @@
 
     .promo-footer span{color: var(--gold):}
 
-    @keyframes fadeDown{from{opacity: 0; transform: translateY(-20px):} to{opacity:1; transform: translateY(0);}}
-    @keyframes fadeUp{from{opacity: 0; transform: translateY(20px):} to{opacity:1; transform: translateY(0);}}
+    @keyframes fadeDown{from{opacity: 0; transform: translateY(-20px);} to{opacity:1; transform: translateY(0);}}
+    @keyframes fadeUp{from{opacity: 0; transform: translateY(20px);} to{opacity:1; transform: translateY(0);}}
     @keyframes fadeIn{from{opacity: 0;} to{opacity: 1;}}
   </style>
 </head>
@@ -320,7 +320,7 @@
         s.y -= s.speed; s.x += s.drift;
         s.opacity += (Math.random()-0.5)*0.02;
         s.opacity = Math.max(0.05, Math.min(0.5, s.opacity));
-        if (s.y < -10){s.y=canvas.height*10; s.x = Math.random()*canvas.width;}
+        if (s.y < -10){s.y=canvas.height+10; s.x = Math.random()*canvas.width;}
         ctx.globalAlpha = s.opacity;
         ctx.fillStyle = '#c9a84c';
         ctx.beginPath();ctx.arc(s.x, s.y,s.size, 0,Math.PI * 2); ctx.fill();
@@ -352,7 +352,7 @@
       title: 'REC_04 // DAY 89',
       label: 'Recording 04, Day 89',
       text: "[Chair squeaking, papers shuffling]... [Person 1] Ugh dude.. what the hell check the timestamp on that last block. [Light slap] No loser! The one from yesterday. Why is it active? Nobody even has credentials for that sector anymore. I didn't override it. Did you?\n[Person 2] What the hell.. do you think I'm crazy?? I barely get paid as an intern [Person 1] Alright sorry, ok, um, well, it's uploading SOMETHING right now. Just let it run I guess. I'm not letting you get blamed for messing up the queue again ugh [Person 2] Gonna spit in your coffee if that happens"
-    }
+    },
     {
       title: 'REC_05 // DAY 92',
       label: 'Recording 05, Day 92',
