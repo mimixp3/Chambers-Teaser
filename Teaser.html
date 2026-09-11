@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CoLab Archives - Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --black: #0a0a0a;
+      --parchment: #f5f0e8;
+      --copper: #d4842a;
+      --gold: #c9a84c;
+      --gold-dim: #7a6230;
+      --ash: #888880;
+      --amber: #d4842a;
+      --amber-dim: #7a4a10;
+      --royal-purple: #6b4ba1;
+    }
+
+    *, *::before, *::after{box-sizing: border-box; margin: 0; padding: 0;}
+
+    body{
+      background: var(--black);
+      color: var(--parchment);
+      font-family: 'EB Garamond', serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #particles{
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+    }
+
+    body::before{
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(212,132,42,0.012) 2px, rgba(212,132,42,0.012) 4px);
+      pointer-events: none; z-index: 100;
+    }
+
+    body::after{
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.92) 100%);
+      pointer-events: none; z-index: 1;
+    }
+
+    .lost-bg{
+        position: fixed; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        z-index: -5; opacity: 0.5;
+      }
+
+
+    .hidden-content {
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .hidden-content.show {
+      opacity: 1;
+    }
+
+    .wrapper{
+      position: relative; z-index: 2;
+      max-width: 900px; margin: 0 auto;
+      padding: 60px 20px 80px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    .title{
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(32px, 7vw, 72px);
+      font-weight: 900; letter-spacing: 6px;
+      background: linear-gradient(135deg, var(--copper), var(--royal-purple), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-align: center; margin-bottom: 8px;
+      animation: fadeDown 1s ease both;
+    }
+
+    .subtitle{
+      font-family: 'Cinzel', serif;
+      font-size: 19px; letter-spacing: 5px;
+      font-weight: bold;
+      color: var(--gold); text-align: center;
+      margin-bottom: 12px;
+      animation: fadeDown 1.2s ease both;
+    }
+
+
+
+
+
+    .files-label{
+      font-family: 'Cinzel', serif;
+      font-size: 19px; letter-spacing: 5px;
+      font-weight: semi-bold;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 24px; text-align: center;
+    }
+
+    .files-grid{
+      display: flex; gap: 24px;
+      justify-content: center; flex-wrap: wrap;
+      margin-bottom: 48px;
+      animation: fadeUp 1.5s ease both;
+    }
+
+    .file-item{
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .file-item:hover{transform: translateY(-4px);}
+
+    .file-item:hover .file-img{
+      filter: drop-shadow(0 0 16px rgba(201,168,76,0.7));
+    }
+
+    .file-img{
+      width: 90px; height: 90px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(201,168,76,0.3));
+      transition: filter 0.2s;
+    }
+
+    .file-label{
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 3px;
+      font-weight: semi-bold;
+      color: var(--gold); text-align: center;
+    }
+
+    .player-wrap{
+      width: 100%; max-width: 680px;
+      border: 1px solid rgba(201,168,76,0.3);
+      background: rgba(15,12,8,0.95);
+      position: relative;
+      margin-bottom: 56px;
+      animation: fadeUp 1.6s ease both;
+    }
+
+    .player-wrap::before{
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .player-header{
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .player-dot{
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gold-dim);
+      animation: playerBlink 2.5s ease-in-out infinite;
+    }
+
+    @keyframes playerBlink{0%,100%{opacity: 0.4;} 50%{opacity: 1; background: var(--gold); box-shadow: 0 0 8px var(--gold);} }
+
+    .player-now-playing{
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 3px; color: var(--gold-dim);
+    }
+
+    .player-title{
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; color: var(--gold); letter-spacing: 2px;
+      margin-left: auto;
+    }
+
+    .player-body{
+      padding: 36px 40px;
+      min-height: 220px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .player-idle{
+      text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 4px;
+      color: rgba(136,136,128,0.3);
+    }
+
+    .player-transcript{
+      font-family: 'EB Garamond', serif;
+      font-size: 18px; line-height: 1.95;
+      color: var(--ash);
+      display: none;
+      animation: transcriptFade 0.6s ease both;
+    }
+
+    @keyframes transcriptFade{
+      from{opacity: 0; transform: translateY(8px);}
+      to  {opacity: 1; transform: translateY(0);}
+    }
+
+    .player-transcript .rec-label{
+      font-family: 'Cinzel', serif;
+      font-size: 10px; letter-spacing: 5px;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 20px; display: block;
+    }
+
+    .player-transcript em{color: var(--gold); font-style: normal;}
+
+    .promo-footer{
+      text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 3px;
+      color: var(--gold-dim);
+      line-height: 2;
+      animation: fadeUp 1.8s ease both;
+    }
+
+    .promo-footer span{color: var(--gold):}
+
+    @keyframes fadeDown{from{opacity: 0; transform: translateY(-20px):} to{opacity:1; transform: translateY(0);}}
+    @keyframes fadeUp{from{opacity: 0; transform: translateY(20px):} to{opacity:1; transform: translateY(0);}}
+    @keyframes fadeIn{from{opacity: 0;} to{opacity: 1;}}
+  </style>
+</head>
+<body>
+
+<video id="lostVideo" class="lost-bg" autoplay muted playsinline>
+  <source src="lost.mp4" type="video/mp4">
+</video>
+
+
+<audio id="bgAudio" src="track.mp3" loop></audio>
+
+<canvas id="particles"></canvas>
+
+
+<div id="delayed-content" class="hidden-content">
+  <div class="wrapper">
+
+  <h1 class="title">The Chamber</h1>
+  <p class="subtitle">The Chamber Unseals - Sept 29th</p>
+
+
+  <p class="files-label">// Rael's Recovered Files //</p>
+
+  <div class="files-grid">
+    <div class="file-item" onmouseenter="new Audio('hover.mp3').play()" onclick="loadRecording(0);new Audio('clicks.mp3').play()">
+      <img class="file-img" src="tapes.png" alt="R1"/>
+      <span class="file-label">REC_01</span>
+    </div>
+    <div class="file-item" onmouseenter="new Audio('hover.mp3').play()" onclick="loadRecording(1);new Audio('clicks.mp3').play()">
+      <img class="file-img" src="tapes.png" alt="2"/>
+      <span class="file-label">REC_02</span>
+    </div>
+    <div class="file-item" onmouseenter="new Audio('hover.mp3').play()" onclick="loadRecording(2);new Audio('clicks.mp3').play()">
+      <img class="file-img" src="tapes.png" alt="3"/>
+      <span class="file-label">REC_03</span>
+    </div>
+    <div class="file-item" onmouseenter="new Audio('hover.mp3').play()" onclick="loadRecording();new Audio('clicks.mp3').play()">
+      <img class="file-img" src="tapes.png" alt="4th one"/>
+      <span class="file-label">REC_04</span>
+    </div>
+  </div>
+
+  <!-- PLAYER -->
+  <div class="player-wrap">
+    <div class="player-header">
+      <div class="player-dot"></div>
+      <span class="player-now-playing">NOW PLAYING</span>
+      <span class="player-title" id="player-title">— SELECT A FILE —</span>
+    </div>
+    <div class="player-body">
+      <div class="player-idle" id="player-idle">
+        CLICK A FILE ABOVE TO LOAD THE TRANSCRIPTS
+      </div>
+      <div class="player-transcript" id="player-transcript">
+        <span class="rec-label" id="rec-label"></span>
+        <span id="rec-text"></span>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <div class="promo-footer">
+    COLAB ARCHIVES &nbsp;·&nbsp; SEASON II<br>
+    //COME FIND WHAT RAEL LEFT BEHIND//
+    <br> CoLab Student Association
+  </div>
+
+</div>
+
+</div>
+
+<script>
+  //FIREFLIES
+  (function(){
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    function resize(){canvas.width=window.innerWidth; canvas.height = window.innerHeight;}
+    resize(); window.addEventListener('resize', resize);
+    const sparks = Array(100).fill(0).map(()=>({
+      x: Math.random()*window.innerWidth,
+      y: Math.random()*window.innerHeight,
+      size: Math.random()*1.5+0.3,
+      speed: Math.random()*0.4+ 0.1,
+      opacity: Math.random()*0.4 + 0.1,
+      drift: (Math.random()-0.5)*0.3
+    }));
+    function draw(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      sparks.forEach(s =>{
+        s.y -= s.speed; s.x += s.drift;
+        s.opacity += (Math.random()-0.5)*0.02;
+        s.opacity = Math.max(0.05, Math.min(0.5, s.opacity));
+        if (s.y < -10){s.y=canvas.height*10; s.x = Math.random()*canvas.width;}
+        ctx.globalAlpha = s.opacity;
+        ctx.fillStyle = '#c9a84c';
+        ctx.beginPath();ctx.arc(s.x, s.y,s.size, 0,Math.PI * 2); ctx.fill();
+      });
+      ctx.globalAlpha=1;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  //RECORDINGS
+  const recordings = [
+    {
+      title: 'REC_01 // DAY 12',
+      label: 'Recording 01, Day 12',
+      text: "Flagged unusual pattern in the classification output today. The model is grouping visitors by variables I never fed it, arrival time, how long they paused at the door, whether they touched the east wall. I didn't include any of that in the training set. Ran it twice. Same result both times. Going to log it and move on. Probably a data bleed from somewhere"
+    },
+    {
+      title: 'REC_02 // DAY 34',
+      label: 'Recording 02, Day 34',
+      text: "The archive has started filing things on its own. Not misplacing, filing. Correctly. Documents I hadn't touched yet were sorted by morning. I asked the building manager if someone had been in overnight. He said no. I believe him. I'm not sure what I believe about the other part"
+    },
+    {
+      title: 'REC_03 // DAY 67',
+      label: 'Recording 03, Day 67',
+      text: "I found a folder with my name on it today. My full name, employee number, the date I started, and a field labeled verdict that was blank. It was filed under a section I've never opened. The section is labeled 'non-essential' I've moved the folder to my desk. I'm not sure why. I think I wanted it where I could see it"
+    },
+    {
+      title: 'REC_04 // DAY 89',
+      label: 'Recording 04, Day 89',
+      text: "I'm leaving these recordings somewhere findable. If you're hearing this you made it further than I did, which means you're either very good, or the system decided you were interesting enough to keep around for a while. Either way, watch the east wall. It's been watching back since day one"
+    }
+  ];
+
+  let currentRec = null;
+
+  function loadRecording(idx){
+    const rec = recordings[idx];
+    if (currentRec === idx) return;
+    currentRec = idx;
+
+    //update player title
+    document.getElementById('player-title').textContent = rec.title;
+
+    //hide idle, reset transcript
+    const idle       = document.getElementById('player-idle');
+    const transcript = document.getElementById('player-transcript');
+    idle.style.display = 'none';
+    transcript.style.display = 'none';
+
+    //set content and fade in
+    document.getElementById('rec-label').textContent = rec.label;
+    document.getElementById('rec-text').textContent  = rec.text;
+
+    //force reflow for re-animation
+    transcript.style.animation = 'none';
+    transcript.offsetHeight;
+    transcript.style.animation = 'transcriptFade 0.6s ease both';
+    transcript.style.display   = 'block';
+
+    //highlight active file
+    document.querySelectorAll('.file-item').forEach((el, i) =>{
+      el.style.opacity = i === idx ? '1' : '0.5';
+    });
+  }
+
+  //just to delay lol
+  const content = document.getElementById('delayed-content');
+  const video = document.getElementById('lostVideo');
+
+  function triggerDelay() {
+    setTimeout(() => {
+      content.classList.add('show');
+    }, 2000);
+  }
+
+  if (video && !video.paused) {
+    triggerDelay();
+  } else if (video) {
+    video.addEventListener('play', triggerDelay, { once: true });
+  } else if (content) {
+    content.classList.add('show');
+  }
+
+  //audio
+  const audio = document.getElementById('bgAudio');
+  
+  audio.play().catch(() => { //immediate attempt
+    document.addEventListener('click', () => {
+      audio.play();
+    }, { once: true });
+  });
+</script>
+
+</body>
+</html>
