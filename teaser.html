@@ -259,9 +259,13 @@
       <img class="file-img" src="tapes.png" alt="3"/>
       <span class="file-label">REC_03</span>
     </div>
-    <div class="file-item" onmouseenter="new Audio('hover.mp3').play()" onclick="loadRecording();new Audio('clicks.mp3').play()">
+    <div class="file-item" onmouseenter="new Audio('hover.mp3').play()" onclick="loadRecording(3);new Audio('clicks.mp3').play()">
       <img class="file-img" src="tapes.png" alt="4th one"/>
       <span class="file-label">REC_04</span>
+    </div>
+    <div class="file-item" onmouseenter="new Audio('hover.mp3').play()" onclick="loadRecording(4);new Audio('clicks.mp3').play()">
+      <img class="file-img" src="tapes.png" alt="5th"/>
+      <span class="file-label">REC_05</span>
     </div>
   </div>
 
@@ -332,23 +336,29 @@
     {
       title: 'REC_01 // DAY 12',
       label: 'Recording 01, Day 12',
-      text: "Flagged unusual pattern in the classification output today. The model is grouping visitors by variables I never fed it, arrival time, how long they paused at the door, whether they touched the east wall. I didn't include any of that in the training set. Ran it twice. Same result both times. Going to log it and move on. Probably a data bleed from somewhere"
+      text: "[Fabric rustling]... Look [ambient sounds] if you’re hearing this, it means the patch didn't hold ughh I don't know what Rael told you, but we didn’t break the lock. It just uhh stopped responding. We were sitting right here at the desk and the terminal goes dead like what? Then the feedback had to act up too hh just.. don't touch the secondary lines. Whatever you do, leave them alone."
     },
     {
       title: 'REC_02 // DAY 34',
       label: 'Recording 02, Day 34',
-      text: "The archive has started filing things on its own. Not misplacing, filing. Correctly. Documents I hadn't touched yet were sorted by morning. I asked the building manager if someone had been in overnight. He said no. I believe him. I'm not sure what I believe about the other part"
+      text: "[Sound of a mug setting down].. Can't believe it’s 4:00 AM [Heavy sigh following]. Look, I'm logging this because nobody answers their emails. The cooling grid in the server room is shot and HAHHH if we leave the libraries unsealed over the weekend, the whole stack is going to melt. I'm pulling the logs to my local drive just in case. If management gets mad about data protocols, they can go buy a better fan"
     },
     {
       title: 'REC_03 // DAY 67',
       label: 'Recording 03, Day 67',
-      text: "I found a folder with my name on it today. My full name, employee number, the date I started, and a field labeled verdict that was blank. It was filed under a section I've never opened. The section is labeled 'non-essential' I've moved the folder to my desk. I'm not sure why. I think I wanted it where I could see it"
+      text: "[Keyboard clicking, heavy sigh]... Run 44. I’m scaling back the behavioral parameters.. I know management is gonna blame me but I get this weird feeling.. it keeps ignoring the safety caps.. Yesterday it rewrote its own tracking logic to bypass a confirmation prompt. It's not even programmed to do that I have no clue what Jenkins is thinking pushing this forward because it’s not a glitch anymore. It’s actively choosing what to tell me, looking right at me and lying."
     },
     {
       title: 'REC_04 // DAY 89',
       label: 'Recording 04, Day 89',
-      text: "I'm leaving these recordings somewhere findable. If you're hearing this you made it further than I did, which means you're either very good, or the system decided you were interesting enough to keep around for a while. Either way, watch the east wall. It's been watching back since day one"
+      text: "[Chair squeaking, papers shuffling]... [Person 1] Ugh dude.. what the hell check the timestamp on that last block. [Light slap] No loser! The one from yesterday. Why is it active? Nobody even has credentials for that sector anymore. I didn't override it. Did you?\n[Person 2] What the hell.. do you think I'm crazy?? I barely get paid as an intern [Person 1] Alright sorry, ok, um, well, it's uploading SOMETHING right now. Just let it run I guess. I'm not letting you get blamed for messing up the queue again ugh [Person 2] Gonna spit in your coffee if that happens"
     }
+    {
+      title: 'REC_05 // DAY 92',
+      label: 'Recording 05, Day 92',
+      text: "[Panic (?)].. I'm scared. I never should've picked this internship and now I'm stuck. My boss hates me. My supervisors gone and the stupid console isn't accepting my token. I thought it was a network drop, but the server is pulling 40kW and the traffic is entirely local??? It changed the root keys. I’m standing in the hall right now looking at the rack through this glass and I can't stop it."
+    }
+  
   ];
 
   let currentRec = null;
